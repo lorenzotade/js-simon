@@ -9,10 +9,11 @@ $(function() {
 
   $('#btn-start').click(function(){
     $(this).hide();
-    //con questo ciclo pusho 5 numeri random nell'array apposito e li mostro per 5 secondi a video. Dopodiché mostro input e bottone per l'utente
-    while (arrRandom.length < 5) {
+    //con questo ciclo pusho tot numeri random nell'array apposito e li mostro per 5 secondi a video. Dopodiché mostro input e bottone per l'utente
+    while (arrRandom.length < parseInt($('#input-level').val())) {
       arrRandom.push(getRandomNumber(1, 100));
       printDisplay(arrRandom.join(', '), '#display');
+      $('#input-level').hide();
       setTimeout(function() {
         printDisplay('Indovina i numeri!', '#display');
         $('#input-user').show();
@@ -25,8 +26,8 @@ $(function() {
     //pusho i numeri utente parsati dentro l'array apposito e resetto il campo input
     arrUser.push(parseInt($('#input-user').val()));
     $('#input-user').val('');
-    //quando nell'array ci sono 5 numeri scompare input e bottoni, il computer "calcola" e parte il ciclo for
-    if (arrUser.length === 5) {
+    //quando nell'array ci sono tanti numeri quanti scelti inizialmente dall'utente, scompaiono input e bottoni, il computer "calcola" e parte il ciclo for
+    if (arrUser.length === parseInt($('#input-level').val())) {
       $('#input-user').hide();
       $(this).hide();
       printDisplay('Calcolo in corso...', '#display');
@@ -45,7 +46,7 @@ $(function() {
         }
         $('#restart').show();
       }, 3000);
-  }
+    }
   }); //end push-num click
 
   $('#restart').click(function(){
@@ -58,6 +59,8 @@ $(function() {
   function reset() {
     $('#display').text('Sei pronto a giocare?');
     $('#btn-start').show();
+    $('#input-level').show();
+    $('#input-level').val('');
     $('#input-user').hide();
     $('#push-num').hide();
     $('#restart').hide();
@@ -70,5 +73,5 @@ $(function() {
   function printDisplay(output, target) {
     $(target).text(output);
   }
-  
+
 }); //end document ready
